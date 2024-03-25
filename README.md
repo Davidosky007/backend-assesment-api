@@ -1,4 +1,4 @@
-# Node.js RESTful API with TypeScript and MongoDB
+# RESTful API with TypeScript and MongoDB
 
 This project is a simple RESTful API built with Node.js, TypeScript, and MongoDB as the database. It provides endpoints to create and manage products in a store.
 
@@ -100,6 +100,6 @@ npm run test
 ## Docker
 To run the app in a docker container, run the following command:
 ```bash
-docker build -t product-api .
-docker run -d -p 8080:8080 product-api
+docker build -t project_name.
+docker run -d -p 8080:8080 project_name
 ```
