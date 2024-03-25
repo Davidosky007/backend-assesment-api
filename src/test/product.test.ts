@@ -62,14 +62,6 @@ test('createProduct throws error for missing name', async () => {
   }
 });
 
-// test('createProduct throws error for missing quantity', async () => {
-//   expect.assertions(1);
-//  try {
-//   await createProduct({ ...MOCK_PRODUCT_DATA, quantity: undefined }, MOCK_USER_ID.toString());
-// } catch (error) {
-//   expect(error.message).toBe('Failed to create product'); // Assert the expected error
-// }
-// });
 
 test('deleteProductById removes a product by ID', async () => {
   const createdProduct = await createProduct(MOCK_PRODUCT_DATA, MOCK_USER_ID.toString());
