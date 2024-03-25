@@ -81,13 +81,16 @@ export const getProduct = async (req: express.Request, res: express.Response) =>
 export const updateProduct = async (req: express.Request, res: express.Response) => {
   try {
     const { id } = req.params;
-    const { name, quantity, image, price, description } = req.body;
+    const updateFields = req.body; // Get all fields from the request body
 
-    if (!name || !price) {
-      return res.status(400).json({ message: 'Name and price are required' });
+    console.log("Update Product Request Body:", req.body); // Log the request body for debugging
+
+    // Check if there are any fields to update
+    if (Object.keys(updateFields).length === 0) {
+      return res.status(400).json({ message: 'No fields provided for update' });
     }
 
-    const updatedProduct = await updateProductById(id, { name, price, quantity, image, description });
+    const updatedProduct = await updateProductById(id, updateFields);
 
     if (!updatedProduct) {
       return res.status(404).json({ message: 'Product not found' });
@@ -99,6 +102,7 @@ export const updateProduct = async (req: express.Request, res: express.Response)
     return res.sendStatus(500);
   }
 };
+
 
 
 /**
@@ -113,13 +117,15 @@ export const deleteProduct = async (req: express.Request, res: express.Response)
     const deletedProduct = await deleteProductById(id);
 
     if (!deletedProduct) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(400).json({ message: 'Invalid product ID' });
     }
 
-    return res.sendStatus(204);
+    return res.status(204).json({ message: 'Product deleted successfully' });
+
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
+
 
