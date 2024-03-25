@@ -67,15 +67,23 @@ export const getUsers = () => UserModel.find().lean();
 export const getUserByEmail = (email: string) => UserModel.findOne({ email });
 
 // Retrieve user by session token
+// Retrieve user by session token
 export const getUserBySessionToken = async (sessionToken: string) => {
   try {
     const user = await UserModel.findOne({ "authentication.sessionToken": sessionToken });
+    
+    if (!user) {
+      console.error("User not found for session token:", sessionToken);
+      return null;
+    }
+    
     return user;
   } catch (error) {
     console.error("Error fetching user by session token:", error);
     throw error;
   }
 };
+
 
 // Retrieve user by ID
 export const getUserById = (id: string) => UserModel.findById(id);

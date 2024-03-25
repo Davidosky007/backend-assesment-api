@@ -11,7 +11,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
   try {
     const users = await getUsers();
 
-      // Map users to remove authentication field
+    // Map users to remove authentication field
     const sanitizedUsers = users.map(user => {
       const { authentication, ...sanitizedUser } = user as any;
       return sanitizedUser;
@@ -19,10 +19,11 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
 
     return res.status(200).json(sanitizedUsers);
   } catch (error) {
-    console.error('Error getting all users:', error);
-    return res.status(500).send('Internal Server Error');
+    console.log(error);
+    return res.sendStatus(400);
   }
-};
+}
+
 
 
 /**

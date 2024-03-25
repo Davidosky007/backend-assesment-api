@@ -1,6 +1,6 @@
 import express from "express";
 import { get, merge } from "lodash";
-import { getUserBySessionToken } from "../model/user";
+import { getUserById } from "../model/user";
 import { verifyToken } from "../helpers";
 import { Request } from 'express';
 import { getProductById } from "../model/product";
@@ -32,7 +32,6 @@ export const isProductOwner = async (req: express.Request, res: express.Response
     // Convert userId to string
     const convertUserId = userId.toString();
 
-    console.log("convertUserId: ", convertUserId);
 
     // Retrieve the product from the database
     const product = await getProductById(productId);
@@ -43,7 +42,6 @@ export const isProductOwner = async (req: express.Request, res: express.Response
 
     // Convert product userId to string for consistency
     const productUserId = product.userId.toString();
-    console.log("productUserId: ", productUserId);
 
     // Check if the product belongs to the authenticated user
     if (productUserId !== convertUserId) {
@@ -60,27 +58,35 @@ export const isProductOwner = async (req: express.Request, res: express.Response
 
 
 
-
 export const isAuthenticated = async (req: AuthenticatedRequest<any>, res: express.Response, next: express.NextFunction) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
+      console.error("No token provided");
       return res.sendStatus(403);
     }
 
     const decodedToken = verifyToken(token);
-    const existingUser = await getUserBySessionToken(decodedToken.sessionToken);
+    
+    if (!decodedToken || !decodedToken.userId) {
+      console.error("Invalid token or missing userId:", decodedToken);
+      return res.sendStatus(403);
+    }
+
+    const existingUser = await getUserById(decodedToken.userId);
 
     if (!existingUser) {
+      console.error("User not found for user ID:", decodedToken.userId);
       return res.sendStatus(403);
     }
 
     req.identity = existingUser;
     return next();
   } catch (error) {
-    console.log(error);
+    console.error("Error in isAuthenticated middleware:", error);
     return res.sendStatus(400);
   }
 };
+
 

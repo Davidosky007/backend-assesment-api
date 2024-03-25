@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { ProductModel, getProducts, getProductById, createProduct, deleteProductById, updateProductById } from '../model/product';
 
+dotenv.config();
 // Generate a valid ObjectId for MOCK_USER_ID
 const MOCK_USER_ID = new mongoose.Types.ObjectId();
 
@@ -12,7 +14,7 @@ const MOCK_PRODUCT_DATA = {
 };
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb+srv://davidosky1:TcktxW72ILOvfJTV@cluster0.pmajddj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {});
+  await mongoose.connect(process.env.MONGO_URI, {});
 });
 
 afterEach(async () => {

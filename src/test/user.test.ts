@@ -1,12 +1,15 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { UserModel, createUser, getUserByEmail, deleteUserById } from '../model/user'; // Replace with your file path
 
 const MOCK_USER_ID = '1234567890abcdef';
 const MOCK_EMAIL = 'test@example.com';
 const MOCK_PASSWORD = 'secret123';
 
+dotenv.config();
+
 beforeAll(async () => {
-  await mongoose.connect('mongodb+srv://davidosky1:TcktxW72ILOvfJTV@cluster0.pmajddj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {});
+  await mongoose.connect(process.env.MONGO_URI, {});
 });
 
 
