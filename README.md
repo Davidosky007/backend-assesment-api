@@ -74,7 +74,7 @@ JWT_SECRET=secret
 | PUT    | `api/products/:id`    | Update an existing product by ID      | Yes            |
 | DELETE | `api/products/:id`    | Delete an existing product by ID      | Yes            |
 
-[Postman Documentation link]()
+[Postman Documentation link](https://documenter.getpostman.com/view/9648616/2sA35D4iHP)
 
 
 ## Authentication
